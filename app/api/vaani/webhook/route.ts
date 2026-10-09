@@ -55,7 +55,25 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ ok: true, classified: "unclear" });
   }
 
-  const { result, costInr } = await classifyCall(call);
+  // If the AI step fails, never lose the lead: log the error and send the raw call to the front desk.
+  let classified;
+  try {
+    classified = await classifyCall(call);
+  } catch (e: any) {
+    const reason = `AI step failed: ${String(e?.message ?? e).slice(0, 300)}`;
+    await supa.from("calls").update({ classification: "unclear", fit_reason: reason }).eq("id", row.id);
+    try {
+      const { html, text } = handoffEmail({
+        heading: "New call: AI could not classify it, please review",
+        facts: [["Phone", call.callerNumber], ["Duration", `${Math.round(call.durationSec / 60)} min`]],
+        note: [call.summary, "", ...call.transcript.map((t) => `${t.role}: ${t.text}`)].join("\n"),
+        buttons: call.recordingUrl ? [{ label: "Recording", url: call.recordingUrl }] : [],
+      });
+      await sendEmail({ to: env("FRONT_DESK_EMAIL"), subject: `[Review] Call from ${call.callerNumber ?? "unknown"}`, html, text });
+    } catch {}
+    return NextResponse.json({ ok: false, error: reason }, { status: 200 });
+  }
+  const { result, costInr } = classified;
 
   // Route: match designer by segment, then the one with the fewest leads this week.
   let designer: { id: string; name: string; email: string | null } | null = null;
