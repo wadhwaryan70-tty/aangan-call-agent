@@ -1,0 +1,224 @@
+<title>Aangan Call Agent Map</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one left-to-right pipeline (Trigger → Output), a branch row for call outcomes, then the human boundary, build layer and dashboard. */
+:root{
+  --bg:#F3F5F4; --surface:#FFFFFF; --ink:#16211F; --muted:#56635F; --line:#D5DDDA;
+  --accent:#1F5E57; --accent-soft:#E1EEEB;
+  --stop:#A23B2A; --stop-soft:#F7E6E2; --warn:#8A6410; --warn-soft:#F6EDD6; --ok:#2E6B3A; --ok-soft:#E2F0E3;
+  --f-display:"Bricolage Grotesque", "Helvetica Neue", Arial, sans-serif;
+  --f-body:"IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
+  --f-mono:"IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#111816; --surface:#19221F; --ink:#E6EDEA; --muted:#9AA8A3; --line:#2C3934;
+  --accent:#6FC2B6; --accent-soft:#1D3530;
+  --stop:#F08A76; --stop-soft:#3A201B; --warn:#E3B95A; --warn-soft:#352B14; --ok:#86CC92; --ok-soft:#1C3220; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#111816; --surface:#19221F; --ink:#E6EDEA; --muted:#9AA8A3; --line:#2C3934;
+  --accent:#6FC2B6; --accent-soft:#1D3530;
+  --stop:#F08A76; --stop-soft:#3A201B; --warn:#E3B95A; --warn-soft:#352B14; --ok:#86CC92; --ok-soft:#1C3220; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.5;padding-inline:20px;padding-block:28px 48px}
+.wrap{max-width:1240px;margin:0 auto;display:flex;flex-direction:column;gap:36px}
+h1,h2{font-family:var(--f-display);text-wrap:balance;margin:0}
+h1{font-size:clamp(28px,4vw,40px);font-weight:700;letter-spacing:-.01em}
+h2{font-size:21px;font-weight:700}
+p{margin:0}
+.eyebrow{font-family:var(--f-mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+header{display:flex;flex-direction:column;gap:10px}
+header .lede{color:var(--muted);max-width:70ch}
+.stats{display:flex;flex-wrap:wrap;gap:8px 20px;font-family:var(--f-mono);font-size:12.5px;color:var(--muted)}
+.stats b{color:var(--ink);font-weight:500;font-variant-numeric:tabular-nums}
+
+/* pipeline */
+.pipe-scroll{overflow-x:auto;padding-bottom:4px}
+.pipe{display:grid;grid-template-columns:repeat(6,minmax(180px,1fr));gap:12px;min-width:0}
+.stage{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:10px;position:relative;min-width:0}
+.stage:not(:last-child)::after{content:"→";position:absolute;right:-12px;top:22px;width:12px;text-align:center;color:var(--accent);font-family:var(--f-mono);font-size:13px}
+.stage .num{font-family:var(--f-mono);font-size:11.5px;color:var(--accent);letter-spacing:.06em}
+.stage h3{font-family:var(--f-display);font-size:18px;margin:0;font-weight:700}
+.stage .does{font-size:13.5px;color:var(--muted)}
+.tool{border-top:1px dashed var(--line);padding-top:9px;display:flex;flex-direction:column;gap:2px}
+.tool .name{font-weight:600;font-size:13.5px}
+.tool .role{font-size:12.5px;color:var(--muted)}
+.checks{display:flex;flex-wrap:wrap;gap:5px;margin-top:auto;padding-top:6px}
+.chk{font-family:var(--f-mono);font-size:11px;padding:2px 7px;border-radius:999px;background:var(--accent-soft);color:var(--accent)}
+.chk.stop{background:var(--stop-soft);color:var(--stop)}
+.excluded{font-size:12.5px;color:var(--stop);background:var(--stop-soft);border-radius:6px;padding:6px 8px}
+
+/* branches */
+.branches{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+.branch{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:8px;border-top:4px solid var(--accent)}
+.branch.ok{border-top-color:var(--ok)} .branch.warn{border-top-color:var(--warn)} .branch.stop{border-top-color:var(--stop)}
+.branch .when{font-family:var(--f-mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase}
+.branch.ok .when{color:var(--ok)} .branch.warn .when{color:var(--warn)} .branch.stop .when{color:var(--stop)}
+.branch h3{font-size:16px;margin:0;font-family:var(--f-display)}
+.branch ul{margin:0;padding-left:18px;font-size:13.5px;color:var(--muted);display:flex;flex-direction:column;gap:3px}
+.branch li b{color:var(--ink);font-weight:600}
+
+section{display:flex;flex-direction:column;gap:14px}
+.section-head{display:flex;flex-direction:column;gap:4px}
+.section-head p{color:var(--muted);font-size:14px;max-width:75ch}
+
+/* boundary */
+.boundary{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.col{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:8px}
+.col h3{margin:0;font-size:15px;font-family:var(--f-display)}
+.col.agent h3{color:var(--accent)} .col.human h3{color:var(--stop)}
+.col ul{margin:0;padding-left:18px;font-size:13.5px;display:flex;flex-direction:column;gap:3px}
+.owner{font-family:var(--f-mono);font-size:12.5px;color:var(--muted)}
+
+/* handoff note */
+.two{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:16px}
+.note{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px;font-family:var(--f-mono);font-size:13px;line-height:1.6;display:flex;flex-direction:column;gap:6px}
+.note .tg{font-family:var(--f-body);font-size:11.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+.note .btns{display:flex;gap:8px;flex-wrap:wrap;margin-top:4px}
+.note .btns span{border:1px solid var(--accent);color:var(--accent);border-radius:6px;padding:3px 10px;font-size:12px}
+.why{display:flex;flex-direction:column;gap:8px;font-size:14px}
+.why ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px}
+
+/* build + dashboard */
+.grid4{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}
+.mini{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px;display:flex;flex-direction:column;gap:4px}
+.mini .name{font-weight:600}
+.mini .role{font-size:13px;color:var(--muted)}
+.mini .k{font-family:var(--f-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent)}
+.foot{font-size:13.5px;color:var(--muted);border-top:1px solid var(--line);padding-top:14px}
+
+@media (max-width:760px){
+  .pipe{grid-template-columns:1fr}
+  .stage:not(:last-child)::after{content:"↓";right:auto;left:50%;top:auto;bottom:-14px}
+  .two{grid-template-columns:1fr}
+}
+</style>
+
+<div class="wrap">
+<header>
+  <span class="eyebrow">Case 03 · Aangan Studio · Components Map</span>
+  <h1>Every call answered, every good lead booked</h1>
+  <p class="lede">An AI voice agent picks up incoming calls to the studio number, qualifies the caller against Nikhil's own rules, books a consultation inside the call, and sends the designer everything already asked. Phone only for this build.</p>
+  <div class="stats"><span><b>~200</b> calls/mo</span><span><b>~96</b> unanswered</span><span><b>33%</b> after hours</span><span><b>4×</b> conversion under 1 hr</span><span><b>₹8–14L</b> per project</span></div>
+</header>
+
+<section>
+  <div class="section-head"><span class="eyebrow">The workflow</span><h2>Trigger → Input → Context → Processing → AI → Output</h2></div>
+  <div class="pipe-scroll"><div class="pipe">
+    <div class="stage">
+      <span class="num">01 · TRIGGER</span><h3>Call comes in</h3>
+      <p class="does">After hours, the agent answers at once. During 10am–7pm, it answers if the front desk misses the call after ~4 rings.</p>
+      <div class="tool"><span class="name">Vaani Labs</span><span class="role">Telephony: studio number forwarding and pickup rules</span></div>
+      <div class="checks"><span class="chk">01 Problem real</span><span class="chk">02 Repeated</span></div>
+    </div>
+    <div class="stage">
+      <span class="num">02 · INPUT</span><h3>Caller and call</h3>
+      <p class="does">Caller's voice, phone number, time of call. Repeat callers are matched by number.</p>
+      <div class="tool"><span class="name">Vaani Labs</span><span class="role">Live audio and caller ID</span></div>
+      <div class="tool"><span class="name">Supabase / Neon</span><span class="role">Lookup: has this number called before?</span></div>
+      <div class="checks"><span class="chk">03 Input available</span></div>
+    </div>
+    <div class="stage">
+      <span class="num">03 · CONTEXT</span><h3>What the agent knows</h3>
+      <p class="does">services.md (what Aangan does), qualified.md (Nikhil's fit rules), designer roster, open consultation slots, call script with consent line.</p>
+      <div class="tool"><span class="name">Claude Chat</span><span class="role">Turns qualified.md into clear fit rules and the call script, before any code</span></div>
+      <div class="tool"><span class="name">Cal.com / Google Calendar</span><span class="role">Designers' set-aside consultation slots</span></div>
+      <p class="excluded">pricing.md is kept out of anything the agent says</p>
+      <div class="checks"><span class="chk">03 Input</span><span class="chk stop">06 Pricing = NO</span></div>
+    </div>
+    <div class="stage">
+      <span class="num">04 · PROCESSING</span><h3>Log and route</h3>
+      <p class="does">Every call is logged with timestamps. Fetches free slots, matches the lead to a designer, creates the CRM record.</p>
+      <div class="tool"><span class="name">Supabase / Neon</span><span class="role">Call log and state: every call, time to answer, outcome</span></div>
+      <div class="tool"><span class="name">HubSpot</span><span class="role">Qualified calls become deals</span></div>
+      <div class="checks"><span class="chk">05 Measurable</span></div>
+    </div>
+    <div class="stage">
+      <span class="num">05 · AI</span><h3>Talk, qualify, book</h3>
+      <p class="does">Asks the intake questions: property, size, location, scope, budget band, timeline. Offers two slots and books one. Writes the handoff note after the call.</p>
+      <div class="tool"><span class="name">Vaani Labs</span><span class="role">Voice agent and call orchestration</span></div>
+      <div class="tool"><span class="name">Gemini Flash</span><span class="role">Classifies the call (qualified / not / complaint) and routes it. Cheap and fast; the rules come from qualified.md</span></div>
+      <div class="checks"><span class="chk">06 Failure risk</span><span class="chk">07 Judgment</span></div>
+    </div>
+    <div class="stage">
+      <span class="num">06 · OUTPUT</span><h3>Everyone gets their part</h3>
+      <p class="does">Caller gets a confirmation and reminder. Designer gets the full note. Nikhil sees it on the dashboard.</p>
+      <div class="tool"><span class="name">Resend (email)</span><span class="role">Designer handoff email with Claim / Reschedule buttons</span></div>
+      <div class="tool"><span class="name">Cal.com</span><span class="role">Booking confirmation to the caller</span></div>
+      <div class="tool"><span class="name">Vercel</span><span class="role">Hosts Nikhil's dashboard</span></div>
+      <div class="checks"><span class="chk">04 Valuable</span><span class="chk">09 Owner clear</span></div>
+    </div>
+  </div></div>
+</section>
+
+<section>
+  <div class="section-head"><span class="eyebrow">Where each call ends up</span><h2>Four outcomes from the classifier</h2></div>
+  <div class="branches">
+    <div class="branch ok"><span class="when">Qualified</span><h3>Book and hand off</h3>
+      <ul><li>Consultation <b>booked inside the call</b></li><li>Handoff email to the matched designer</li><li>HubSpot deal created</li><li>Reminder to caller the day before</li></ul></div>
+    <div class="branch"><span class="when">Not a fit</span><h3>Close politely</h3>
+      <ul><li>Explains what Aangan does, from services.md</li><li>No slot offered</li><li>Logged in Supabase for Nikhil's weekly review</li></ul></div>
+    <div class="branch warn"><span class="when">Asks for a price</span><h3>The Cut</h3>
+      <ul><li>Agent says: <b>"Your designer will walk you through pricing on the consultation."</b></li><li>No number, no range, no per-sq-ft rate</li><li>Pricing question flagged in the handoff note</li></ul></div>
+    <div class="branch stop"><span class="when">Complaint or edge case</span><h3>Pass to a human</h3>
+      <ul><li>Agent takes a message, makes no commitment</li><li>Email to the front desk for first thing next morning</li></ul></div>
+  </div>
+</section>
+
+<section>
+  <div class="section-head"><span class="eyebrow">Boundary · checks 06, 07, 09</span><h2>What the agent does, and where a human stays</h2></div>
+  <div class="boundary">
+    <div class="col agent"><h3>Agent does</h3><ul><li>Answers every call within seconds, day or night</li><li>Asks the intake questions</li><li>Qualifies against qualified.md</li><li>Books pre-set consultation slots</li><li>Writes the handoff note</li></ul></div>
+    <div class="col human"><h3>Human only</h3><ul><li>Quoting any price (Nikhil owns the price)</li><li>Committing to site visits or timelines</li><li>Handling complaints</li><li>The client relationship (designer owns it)</li></ul></div>
+    <div class="col"><h3>Owners</h3><ul><li><span class="owner">Agent</span> qualifies and books</li><li><span class="owner">Designer</span> owns the meeting and relationship</li><li><span class="owner">Nikhil</span> owns the price and the rules in qualified.md</li></ul></div>
+  </div>
+</section>
+
+<section>
+  <div class="section-head"><span class="eyebrow">Handoff choice</span><h2>Email through Resend, not Telegram</h2></div>
+  <div class="two">
+    <div class="note">
+      <span class="tg">Email · Subject: New consultation Thu 8 Oct, 4:00 pm: Priya S., 3BHK, Baner</span>
+      <span>🏠 New consultation: Thu 4:00 PM</span>
+      <span>Priya S. · Baner, Pune · 3BHK, ~1,400 sq ft</span>
+      <span>Scope: full home interiors</span>
+      <span>Budget band: ₹10–12L · Possession: Jan</span>
+      <span>Fit: Qualified (residential, full scope, in service area)</span>
+      <span>Asked about pricing → told designer will cover it</span>
+      <div class="btns"><span>Claim this lead</span><span>Reschedule</span><span>Recording</span></div>
+    </div>
+    <div class="why">
+      <p>Every designer already lives in their inbox, and an email is a record Nikhil can search, forward and audit later.</p>
+      <ul>
+        <li><b>The subject line carries the slot.</b> A designer sees when, who and where in the notification without opening it.</li>
+        <li><b>One-tap Claim.</b> The first designer to claim takes the lead, so two people never chase the same client. Links are signed so only the email's recipient can use them.</li>
+        <li><b>Nothing new to install.</b> No bot, no group to manage, no personal phone numbers shared.</li>
+        <li><b>Speed trade-off, handled.</b> Email is slower than chat, so the client already has a booked slot before the email lands. The designer is preparing, not racing.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="section-head"><span class="eyebrow">Dashboard on Vercel · checks 05, 08</span><h2>What Nikhil sees instead of counting by hand</h2></div>
+  <div class="grid4">
+    <div class="mini"><span class="k">Speed</span><span class="name">Time to first response</span><span class="role">% answered under 5 min and under 1 hr</span></div>
+    <div class="mini"><span class="k">Funnel</span><span class="name">Calls → qualified → booked</span><span class="role">→ showed up → project won</span></div>
+    <div class="mini"><span class="k">Value</span><span class="name">Pipeline in ₹ lakh</span><span class="role">From HubSpot deals</span></div>
+    <div class="mini"><span class="k">Cost</span><span class="name">Cost per call and per month</span><span class="role">Vaani minutes + Gemini calls, against value created</span></div>
+  </div>
+</section>
+
+<section>
+  <div class="section-head"><span class="eyebrow">Build layer</span><h2>How it gets built and kept</h2></div>
+  <div class="grid4">
+    <div class="mini"><span class="k">Step 1</span><span class="name">Claude Chat</span><span class="role">Writes the qualification logic and call script with no code</span></div>
+    <div class="mini"><span class="k">Step 2</span><span class="name">Claude Code</span><span class="role">Builds the project end to end: integrations, routing, dashboard</span></div>
+    <div class="mini"><span class="k">Every session</span><span class="name">GitHub</span><span class="role">Saves progress between sessions</span></div>
+    <div class="mini"><span class="k">Ship</span><span class="name">Vercel</span><span class="role">Hosts the dashboard</span></div>
+  </div>
+</section>
+
+<p class="foot"><b>Extending later (not built):</b> WhatsApp and the web form only change the Trigger and Input. Context, AI, Output and the dashboard are reused as they are.</p>
+</div>
