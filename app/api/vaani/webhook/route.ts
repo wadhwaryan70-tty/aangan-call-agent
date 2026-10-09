@@ -114,7 +114,8 @@ export async function POST(req: NextRequest) {
       update.email_message_id = await sendEmail({ to: designer?.email ?? frontDesk, subject, html, text });
     } catch (e: any) { errors.push(e.message); }
 
-    try {
+    // HubSpot is optional: skip quietly until a token is configured.
+    if (optionalEnv("HUBSPOT_PRIVATE_APP_TOKEN")) try {
       update.hubspot_deal_id = await createDeal({
         phone: call.callerNumber,
         name: L.name,
