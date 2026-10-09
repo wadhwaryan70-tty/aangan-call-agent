@@ -1,0 +1,25 @@
+{
+  "event": "call.completed",
+  "data": {
+    "id": "test-call-001",
+    "direction": "INBOUND",
+    "status": "COMPLETED",
+    "from": "+919800000000",
+    "to": "+912000000000",
+    "duration": 184,
+    "startedAt": "2026-10-07T17:12:00Z",
+    "endedAt": "2026-10-07T17:15:04Z",
+    "summary": "TEST CALL. Caller wants full interiors for a new 3BHK in Baner, possession in January. Asked about per sq ft rate.",
+    "collectedData": { "name": "Test Caller", "area": "Baner", "property_type": "3BHK apartment" },
+    "transcript": [
+      { "role": "AGENT", "text": "Thank you for calling Aangan Studio. This call may be recorded. How can I help?" },
+      { "role": "CALLER", "text": "Hi, we need full interiors for our new 3BHK in Baner, about 1400 square feet. Possession is in January." },
+      { "role": "AGENT", "text": "Lovely. What budget range are you working with?" },
+      { "role": "CALLER", "text": "Around 10 to 12 lakh. What's your per square foot rate?" },
+      { "role": "AGENT", "text": "Your designer will walk you through pricing on the consultation. I have Thursday at 4pm or Friday at 11am." },
+      { "role": "CALLER", "text": "Thursday 4pm works." }
+    ],
+    "appointment": { "startTime": "2026-10-08T10:30:00Z" },
+    "recordingUrl": null
+  }
+}
