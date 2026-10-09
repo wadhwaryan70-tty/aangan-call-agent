@@ -48,7 +48,7 @@ Reply with JSON only, matching this shape:
 {"classification":"...","fit_reason":"one sentence","asked_pricing":false,"segment":"home|office|unknown","lead":{"name":null,"area":null,"property_type":null,"size_sqft":null,"scope":null,"budget_band":null,"timeline":null,"source":null},"handoff_note":"..."}`;
 
 export async function classifyCall(call: NormalisedCall): Promise<{ result: Classification; costInr: number }> {
-  const model = env("GEMINI_MODEL", "gemini-2.5-flash");
+  const model = env("GEMINI_MODEL", "gemini-3.8-flash");
   const transcript = call.transcript.map((t) => `${t.role}: ${t.text}`).join("\n");
   const user = `Call summary from the voice agent: ${call.summary || "(none)"}
 Fields the voice agent collected: ${JSON.stringify(call.collected)}
