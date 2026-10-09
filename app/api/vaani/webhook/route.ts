@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/supabase";
 import { env, optionalEnv } from "@/lib/env";
-import { isAfterHours, normalise, verifySignature } from "@/lib/vaani";
+import { isAfterHours, normalise, verifyRequest } from "@/lib/vaani";
 import { classifyCall } from "@/lib/gemini";
 import { sendEmail, handoffEmail } from "@/lib/email";
 import { actionUrl } from "@/lib/links";
@@ -18,12 +18,26 @@ const fmtSlot = (iso: string) =>
 
 export async function POST(req: NextRequest) {
   const raw = await req.text();
-  if (!verifySignature(raw, req.headers.get("x-vaaniyantra-signature"), env("VAANI_WEBHOOK_SECRET"))) {
-    return NextResponse.json({ error: "Signature did not match" }, { status: 401 });
+  const token = req.nextUrl.searchParams.get("token");
+  if (!verifyRequest(raw, req.headers.get("x-vaaniyantra-signature"), token, env("VAANI_WEBHOOK_SECRET"))) {
+    return NextResponse.json({ error: "Not authorised" }, { status: 401 });
   }
 
   const call = normalise(JSON.parse(raw));
   const supa = db();
+
+  // Vaani AI sends several lifecycle events per call. Only call_started (caller's number)
+  // and the final call_postprocessing matter; acknowledge the rest.
+  if (call.event === "call_started") {
+    await supa.from("calls").upsert(
+      { vaani_call_id: call.vaaniCallId, caller_number: call.callerNumber, status: "in_progress",
+        started_at: new Date().toISOString(), after_hours: isAfterHours(null) },
+      { onConflict: "vaani_call_id" }
+    );
+    return NextResponse.json({ ok: true, stored: "call_started" });
+  }
+  const FINAL = ["call_postprocessing", "call.completed", "call.failed", "call_failed"];
+  if (!FINAL.includes(call.event)) return NextResponse.json({ ok: true, ignored: call.event });
 
   // Idempotency: Vaani may retry. Skip calls we've already classified.
   const { data: existing } = await supa
@@ -31,26 +45,29 @@ export async function POST(req: NextRequest) {
   if (existing?.classification) return NextResponse.json({ ok: true, duplicate: true });
 
   const voiceCost = (call.durationSec / 60) * Number(process.env.VAANI_RATE_INR_PER_MIN ?? 5);
-  const base = {
+  const failed = call.event === "call.failed" || call.event === "call_failed";
+  // Drop empty values so we don't wipe the caller number / start time saved at call_started.
+  const base = Object.fromEntries(Object.entries({
     vaani_call_id: call.vaaniCallId,
     caller_number: call.callerNumber,
-    status: call.event === "call.failed" ? "failed" : call.status,
+    status: failed ? "failed" : call.status,
     started_at: call.startedAt,
     ended_at: call.endedAt,
     duration_sec: call.durationSec,
-    after_hours: isAfterHours(call.startedAt),
+    after_hours: call.startedAt ? isAfterHours(call.startedAt) : null,
     recording_url: call.recordingUrl,
     summary: call.summary,
     collected: call.collected,
     transcript: call.transcript,
     booked_slot: call.bookedSlot,
     cost_voice_inr: voiceCost,
-  };
-  const { data: row, error } = await supa.from("calls").upsert(base, { onConflict: "vaani_call_id" }).select("id").single();
+  }).filter(([, v]) => v !== null && v !== undefined && v !== ""));
+  const { data: row, error } = await supa.from("calls").upsert(base, { onConflict: "vaani_call_id" }).select("id, caller_number").single();
   if (error) throw error;
+  call.callerNumber = call.callerNumber ?? row.caller_number ?? null;
 
   // A call that never connected is logged for the dashboard but not classified.
-  if (call.event === "call.failed" || call.transcript.length === 0) {
+  if (failed || call.transcript.length === 0) {
     await supa.from("calls").update({ classification: "unclear", fit_reason: "Call did not connect" }).eq("id", row.id);
     return NextResponse.json({ ok: true, classified: "unclear" });
   }
