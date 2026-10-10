@@ -68,5 +68,5 @@ alter table public.designers add column if not exists email text;
 alter table public.calls rename column telegram_message_id to email_message_id;
 alter table public.calls add column if not exists reschedule_requested_at timestamptz;
 
--- Change the email to the one you signed up to Resend with (sandbox only delivers there).
+-- Resend's test sender only delivers to the Resend account email, so the test designer uses it.
 insert into public.designers (name, email, specialties) values ('Test Designer', 'your-resend-signup@example.com', '{home,office}');
