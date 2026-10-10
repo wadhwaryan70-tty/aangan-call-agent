@@ -88,9 +88,18 @@ ${transcript || "(no transcript)"}`;
  * The caller's own budget band is allowed through.
  */
 export function guard(r: Classification): Classification {
-  const pricey = /(per\s*sq\.?\s*ft|\/\s*sq\.?\s*ft|psf|estimate|would cost|will cost|quote)/i;
-  const lines = r.handoff_note
-    .split("\n")
-    .filter((l) => /budget/i.test(l) || !pricey.test(l));
-  return { ...r, handoff_note: lines.join("\n") };
+  const strip = (s: string) =>
+    s.split("\n").filter((l) => isCallersBudget(l) || !PRICEY.test(l)).join("\n");
+  const lead = { ...r.lead };
+  if (lead.budget_band && !isCallersBudget(`budget ${lead.budget_band}`)) lead.budget_band = null;
+  return { ...r, lead, handoff_note: strip(r.handoff_note ?? ""), fit_reason: strip(r.fit_reason ?? "") || "Reason withheld: it mentioned a price." };
+}
+
+// A rate, an estimate, or any rupee amount. Catches "₹1,800/sq ft", "around 10 lakh for this scope", "Rs 12L".
+const PRICEY =
+  /(per\s*(sq|square)|\/\s*sq|\bpsf\b|estimat|would cost|will cost|should cost|costs? around|\bquote|price (is|would|will)|₹|\brs\.?\s*\d|\binr\b|\d\s*(lakh|lac|lakhs|l\b|k\b|cr|crore))/i;
+
+// The caller's own volunteered budget may pass, but not a line that also states a rate or our estimate.
+function isCallersBudget(l: string): boolean {
+  return /budget/i.test(l) && !/(per\s*(sq|square)|\/\s*sq|\bpsf\b|estimat|would cost|will cost|our (rate|price))/i.test(l);
 }
