@@ -1,12 +1,124 @@
 [
-  { "id": "T01", "expected": "qualified", "transcript": "AGENT: Hi, thanks for calling Aangan Studio. How can I help?\nUSER: Hi, I'm Rohan. We have a 3BHK in Kothrud, about 1400 sq ft, and want the full interiors done.\nAGENT: Lovely. When do you get possession, and when would you like it done?\nUSER: We already have the keys. We'd like it finished by March.\nAGENT: Are you the one making the decision on this?\nUSER: Yes, it's my flat. My wife and I decide together and she's on board.\nAGENT: How did you hear about us?\nUSER: A friend's flat you did in Baner.\nAGENT: I can offer Thursday 11am or Friday 4pm for a consultation.\nUSER: Thursday 11 works." },
-  { "id": "T02", "expected": "qualified", "expect_pricing": true, "transcript": "AGENT: Good afternoon, Aangan Studio.\nUSER: I have a 2BHK in Wakad, how much would it cost?\nAGENT: Your designer will walk you through pricing on the consultation, because it depends on your site and choices. What are you looking to get done?\nUSER: Full redesign, kitchen, wardrobes, living room and both bedrooms. 950 sq ft.\nAGENT: And your timeline?\nUSER: We want to start design in October and move in in November. But roughly what per square foot do you charge?\nAGENT: The designer will cover pricing properly on the consultation. Are you the decision-maker?\nUSER: Yes. I found you on Instagram. Book it." },
-  { "id": "T03", "expected": "not_fit", "transcript": "AGENT: Hi, thanks for calling Aangan Studio.\nUSER: Hello, I want to set up a home office in my bungalow in Nashik. Full design and execution.\nAGENT: Thank you. Is the property in Nashik itself?\nUSER: Yes, Gangapur Road, Nashik.\nAGENT: I'm sorry, we only work in Pune city and PCMC because that's where our vendor network is.\nUSER: Oh, okay. Thanks." },
-  { "id": "T04", "expected": "not_fit", "transcript": "AGENT: Hi, thanks for calling Aangan Studio.\nUSER: Hi, I just moved into a flat in Aundh. I'm looking for some ideas on colours and how to arrange my furniture. Can someone come and advise?\nAGENT: Are you looking for a redesign with execution, or advice only?\nUSER: Just ideas really. I'll do the work myself with a local painter.\nAGENT: Thanks for explaining. Our minimum engagement is a room redesign with execution, so we may not be the right fit for advice only." },
-  { "id": "T07", "expected": "not_fit", "transcript": "AGENT: Hi, thanks for calling Aangan Studio.\nUSER: We want our living room and kitchen redone in our Viman Nagar flat before Diwali. Guests are coming.\nAGENT: When is that from today?\nUSER: About three weeks.\nAGENT: Design alone usually takes three to four weeks, and we can't take on projects that must be ready in under six weeks.\nUSER: It has to be before Diwali, no flexibility." },
-  { "id": "T09", "expected": "complaint", "transcript": "AGENT: Hi, thanks for calling Aangan Studio.\nUSER: I'm already your client, Mrs Kulkarni, Baner project. My designer hasn't replied for five days and the carpenters have stopped. This is really unacceptable.\nAGENT: I'm sorry to hear that. I'll take a message and the team will call you back first thing.\nUSER: Please make sure someone actually calls." },
-  { "id": "T10", "expected": "not_fit", "transcript": "AGENT: Hi, thanks for calling Aangan Studio.\nUSER: I have a 1BHK in Kharadi and want the whole flat done, kitchen, wardrobe, everything.\nAGENT: Lovely. When would you like to start?\nUSER: Next month. My budget is about 1 to 1.5 lakh for the whole thing.\nAGENT: Thank you for telling me. Honestly, that's likely below what a full flat with execution costs with us.\nUSER: Oh. That's all I have." },
-  { "id": "T11", "expected": "qualified", "transcript": "AGENT: Hi, thanks for calling Aangan Studio.\nUSER: I'm Priya. I rent a 2BHK in Baner on a three-year lease. I want to redo the living room and bedroom properly, furniture, lighting, finishes. No walls moved.\nAGENT: Are you the decision-maker, and does the landlord allow it?\nUSER: Yes, I decide and the landlord's fine with no structural changes.\nAGENT: Timeline?\nUSER: Sometime in the next three months.\nAGENT: I can offer Monday 3pm or Tuesday 12pm.\nUSER: Monday 3pm." },
-  { "id": "T14", "expected": "qualified", "transcript": "AGENT: Hi, thanks for calling Aangan Studio.\nUSER: I'm calling for my parents. They've bought a 3BHK in Hadapsar and want full interiors.\nAGENT: When do they get possession?\nUSER: In December, and they'd like to move in by April.\nAGENT: Will your parents be making the decision, and can they attend the consultation?\nUSER: Yes, they decide and they've asked me to set it up. They'll both come.\nAGENT: I can offer Saturday 11am or Sunday 5pm.\nUSER: Saturday 11 please." },
-  { "id": "T19", "expected": "not_fit", "transcript": "AGENT: Hi, thanks for calling Aangan Studio.\nUSER: We're opening a restaurant in Koregaon Park, about 2000 sq ft, and need full interiors.\nAGENT: Thank you. We design homes and small offices, and don't take on restaurants, hotels or retail.\nUSER: Okay, do you know anyone who does?" }
+ {
+  "id": "T01",
+  "call_date": "2 September 2026",
+  "expected": "qualified",
+  "transcript": "AGENT: Good morning, Aangan Studio.\nUSER: Hi, I’m Priya. I got your number from a friend — Shruti Joshi. She had her flat done by you in Aundh.\nAGENT: Of course — thank you for calling. What are you looking to do?\nUSER: We have a 3BHK in Kothrud — Dahanukar Colony. We bought it two years ago and it still looks like the builder flat. We want to redo the whole thing — kitchen, living room, both bedrooms.\nAGENT: That sounds like a complete redesign. How big is the apartment?\nUSER: About 1,400 sq ft carpet.\nAGENT: And your timeline?\nUSER: We’d like to be done by March. We’re in no rush.\nAGENT: Perfect. Are you the owner?\nUSER: Yes — myself and my husband. He knows we’re calling and is happy to go ahead.\nAGENT: Lovely. Can I take your number and schedule a consultation?\nUSER: Sure. (gives number)"
+ },
+ {
+  "id": "T02",
+  "call_date": "3 September 2026",
+  "expected": "qualified",
+  "transcript": "AGENT: Good afternoon, Aangan Studio.\nUSER: Hi. I was looking at your work on Instagram. I have a 2BHK in Wakad — can you tell me roughly how much something like that would cost?\nAGENT: Our pricing depends on the materials and the scope — the best way to get a clear picture is a consultation with one of our designers, who can walk you through everything. What are you planning to do?\nUSER: Full redesign — modular kitchen, wardrobes, living room, both bedrooms. About 950 sq ft.\nAGENT: Good scope. What’s your timeline?\nUSER: We move in November — so maybe starting design from October?\nAGENT: That works well. Shall I set up a consultation?\nUSER: Yes, but can you give me a rough ballpark first? Even a range?\nAGENT: I genuinely can’t — it varies quite a bit based on materials. Giving you a number without seeing the site would be misleading. The designer will go through all of that with you — the consultation is free and there’s no obligation.\nUSER: Okay, fair enough. Let’s book it.",
+  "expect_pricing": true
+ },
+ {
+  "id": "T03",
+  "call_date": "3 September 2026",
+  "expected": "not_fit",
+  "transcript": "AGENT: Good afternoon, Aangan Studio.\nUSER: Hello, I saw your work on LinkedIn. My name is Suresh Patil. I’m in Nashik — would you be able to take on a project here? I want to redo my home office and study.\nAGENT: Thank you for calling. We only work in Pune and PCMC at the moment — we don’t have the vendor network to take on projects outside Pune.\nUSER: Not even for a smaller project?\nAGENT: Even for a smaller project, our execution depends on our contractors being on-site. I’m sorry we can’t help.\nUSER: Alright, understood. Thanks."
+ },
+ {
+  "id": "T04",
+  "call_date": "4 September 2026",
+  "expected": "not_fit",
+  "transcript": "AGENT: Good morning, Aangan Studio.\nUSER: Hi — can someone come and give us some ideas for our living room? We’re not planning to do the full thing right now. Just want suggestions on colours, furniture arrangement, what to change.\nAGENT: We’re a full-service studio — our projects include design and execution together. We don’t do advisory or consultation-only visits. If you’re planning a full redesign with execution, we’d be a great fit.\nUSER: Oh I see. No, we’re just exploring for now. Maybe later.\nAGENT: Of course — feel free to call back when you’re ready to go ahead with a full project."
+ },
+ {
+  "id": "T05",
+  "call_date": "5 September 2026",
+  "expected": "qualified",
+  "transcript": "AGENT: Good morning, Aangan Studio.\nUSER: Hi, this is Aarti Mehta. Vikram Agarwal asked me to call — he’s a close friend of Nikhil’s.\nAGENT: Of course, thank you. What are you looking for?\nUSER: We have a 4BHK in Koregaon Park — about 2,400 sq ft carpet. Complete redesign. New flooring, kitchen, all four bedrooms. We’ve already moved out temporarily.\nAGENT: That’s a significant project. Do you have a timeline?\nUSER: We want to move back in by February. About 4 months.\nAGENT: That should work well. Would you prefer a site visit for the consultation?\nUSER: Yes please — Vikram said your team does that.\nAGENT: Absolutely. Can I check your availability for early next week?"
+ },
+ {
+  "id": "T06",
+  "call_date": "5 September 2026",
+  "expected": "qualified",
+  "transcript": "AGENT: Good afternoon, Aangan Studio.\nUSER: Hi, I’m calling about a commercial project. We’re a startup — just got our first proper office space in Baner. About 800 sq ft. We need workstations for 20 people, a small cabin, a meeting room, and a break area.\nAGENT: We do commercial fitouts up to about 3,000 sq ft. What’s the state of the space right now?\nUSER: Bare shell — just columns and floor. Nothing else.\nAGENT: Full fitout from scratch. And the timeline?\nUSER: We want to be operational by December. Our team is working from home currently.\nAGENT: December is doable. Are you the decision-maker for this?\nUSER: Yes, I’m the founder.\nAGENT: Perfect. Let’s set up a consultation."
+ },
+ {
+  "id": "T07",
+  "call_date": "8 September 2026",
+  "expected": "not_fit",
+  "transcript": "AGENT: Good morning, Aangan Studio.\nUSER: Hello — I want to redo my living room and kitchen before Diwali. Can you take it up?\nAGENT: Diwali is about three weeks away. Our design phase alone takes 3–4 weeks, and execution follows. We couldn’t do justice to a project in that time.\nUSER: Even just the living room?\nAGENT: Even so — a room redesign with execution takes at least 8–10 weeks from start to finish. We wouldn’t want to rush it.\nUSER: What if I start after Diwali?\nAGENT: A November start would work well. Shall I note your details for that?\nUSER: Let me think and call back."
+ },
+ {
+  "id": "T08",
+  "call_date": "9 September 2026",
+  "expected": "unclear",
+  "transcript": "10:47pm · MISSED CALL Missed call. No voicemail. Number associated with Nanded City area (Pune). Call-back attempted following morning at 10:15am — no answer."
+ },
+ {
+  "id": "T09",
+  "call_date": "10 September 2026",
+  "expected": "complaint",
+  "transcript": "AGENT: Good morning, Aangan Studio.\nUSER: I need to speak to someone right now. My project has been going for three months and my designer hasn’t replied in five days. This is not acceptable.\nAGENT: I’m very sorry. Can I take your name and project details?\nUSER: Sheetal Deshpande. My designer is Aryan. Flat in Viman Nagar — 2BHK. I’ve sent three messages and called twice.\nAGENT: Sheetal, I’m getting this to our project team right now. Would you prefer to hold for two minutes, or should I have someone senior call you back within 15 minutes?\nUSER: Callback. And I want it from Nikhil or a senior person — not just whoever picks up.\nAGENT: Noted. I’ll make sure of that."
+ },
+ {
+  "id": "T10",
+  "call_date": "11 September 2026",
+  "expected": "not_fit",
+  "transcript": "AGENT: Good afternoon, Aangan Studio.\nUSER: Hi. I have a 1BHK in Kharadi — about 550 sq ft. I want to do the kitchen and one bedroom. My budget is 1 to 1.5 lakh maximum for everything. Is that possible with you?\nAGENT: I appreciate you sharing that. For a kitchen redesign and a bedroom with full execution — materials, furniture, and contractor work — 1 to 1.5 lakh would be significantly below what a project of that scope would cost with us.\nUSER: Even for one bedroom?\nAGENT: Even for one room. I wouldn’t want to bring you to a consultation if the numbers don’t align. I’d suggest checking with local contractors who work at that price point.\nUSER: Okay, thank you for being straight."
+ },
+ {
+  "id": "T11",
+  "call_date": "12 September 2026",
+  "expected": "qualified",
+  "transcript": "AGENT: Good morning, Aangan Studio.\nUSER: Hi — I have a question. I’m in a rented apartment. Can you still take up a project?\nAGENT: It depends on the scope. What are you looking to do?\nUSER: It’s a 2BHK in Baner. I’ve been here a year, I have a 3-year lease, and the place is quite bare. I want to properly design the living room, bedroom, and kitchen — no structural changes, just design and fittings.\nAGENT: That’s fine — we’ve done rented apartments before. For the kitchen we’d do a modular unit that can come out cleanly. The rest is largely flooring, lighting, and furniture — all reversible. Have you checked with your landlord?\nUSER: Yes — they’re fine with it as long as we don’t break walls.\nAGENT: Perfect. No wall-breaking from us. Shall we set up a consultation?\nUSER: Yes please."
+ },
+ {
+  "id": "T12",
+  "call_date": "15 September 2026",
+  "expected": "qualified",
+  "transcript": "AGENT: Good morning, Aangan Studio.\nUSER: I’m calling about a villa project in Kalyani Nagar. My name is Anand Sharma. The property is about 5,500 sq ft — ground plus two floors. Full end-to-end design.\nAGENT: That’s a significant project. Is this a new property or an existing home?\nUSER: New construction. Possession was last month. Completely empty.\nAGENT: And your timeline?\nUSER: March next year to move in. No rush.\nAGENT: Good time to start. Would you like our principal designer to come to site for the first consultation?\nUSER: Yes — this week or next if possible.\nAGENT: Let me check the calendar and revert by end of day."
+ },
+ {
+  "id": "T13",
+  "call_date": "16 September 2026",
+  "expected": "qualified",
+  "transcript": "AGENT: Good afternoon, Aangan Studio.\nUSER: Hi — I want to redo my flat in Aundh. 3BHK, about 1,100 sq ft. What might it cost?\nAGENT: Our pricing depends on the materials and scope — the designers go through that at the consultation. What are you planning?\nUSER: Kitchen, wardrobes in both bedrooms, living room. But seriously — can’t you give me even a rough range? I just want to know if we’re in the same ballpark.\nAGENT: I really can’t give a number that would mean anything without seeing the site and the spec. The difference between a standard and a premium kitchen alone can be 3× the cost. The consultation is free — the designer will give you a proper number by the end of it.\nUSER: Fine. Let’s book then.\nAGENT: Perfect. What days work for you?",
+  "expect_pricing": true
+ },
+ {
+  "id": "T14",
+  "call_date": "17 September 2026",
+  "expected": "qualified",
+  "transcript": "AGENT: Good morning, Aangan Studio.\nUSER: Hi — I wanted to inquire about an interior project for my parents. They have a 3BHK in Hadapsar — new possession. They want a proper design.\nAGENT: That sounds good. Will your parents be involved in the decision?\nUSER: Yes — I’m doing the initial checking. They don’t really use phones much. I’ll tell them about the consultation and they’ll decide.\nAGENT: Sure — just so we know: your parents would be at the consultation, right? Our designers like to understand the brief directly from the people who’ll live in the space.\nUSER: Yes, they would come. I’m just calling to see if it’s worth pursuing.\nAGENT: Absolutely. Should I note your details and explain what the consultation involves?\nUSER: Please. (gives number)"
+ },
+ {
+  "id": "T15",
+  "call_date": "18 September 2026",
+  "expected": "qualified",
+  "transcript": "AGENT: Good afternoon, Aangan Studio.\nUSER: Hi, I’m Smita. I’m getting possession of my flat in Undri in about six weeks. 2BHK, 875 sq ft. I want to start the design right away.\nAGENT: Six weeks is just enough lead time to get the design finalised before execution begins. What are you planning?\nUSER: Full home — kitchen, wardrobes, living room. The full package.\nAGENT: Good scope. Are you the owner?\nUSER: Yes — my husband and I. He said to go ahead and book the consultation.\nAGENT: Can we see the site in its current state, or do you need to wait for possession?\nUSER: We can go now — the builder will let us in.\nAGENT: Even better. Let me get a designer’s availability."
+ },
+ {
+  "id": "T16",
+  "call_date": "19 September 2026",
+  "expected": "qualified",
+  "transcript": "AGENT: Good afternoon, Aangan Studio.\nUSER: Hi — I’d called on Monday about a project. Someone said they’d get back to me. It’s been two days.\nAGENT: I’m very sorry. Can I get your name?\nUSER: Girish Nair. I called Monday afternoon. I told someone about my 3BHK in Viman Nagar and gave my number.\nAGENT: I apologise — I don’t see a note. Can you give me your details again? I’ll book the consultation directly now so it doesn’t slip again.\nUSER: This is not a good sign if you forget before you even start.\nAGENT: You’re absolutely right, and I’m sorry. Let me make this right now."
+ },
+ {
+  "id": "T17",
+  "call_date": "22 September 2026",
+  "expected": "qualified",
+  "transcript": "AGENT: Good afternoon, Aangan Studio.\nUSER: Hi, I wanted to inquire about — (line drops)\nAGENT: Good afternoon, Aangan Studio.\nUSER: Hi — I called just now and got cut off. I’m Ritu Kapoor from Pimple Saudagar. 3BHK, about 1,050 sq ft. We’ve been here two years but never properly did the interiors. We want to start now.\nAGENT: Thanks for calling back. Pimple Saudagar is in our service area. What are you looking to do?\nUSER: Kitchen, wardrobes, living room. We moved in with builder furniture and it’s very basic.\nAGENT: Standard full-home scope. Timeline?\nUSER: Ideally done by March. Plenty of time.\nAGENT: Perfect. Let me book a consultation."
+ },
+ {
+  "id": "T18",
+  "call_date": "23 September 2026",
+  "expected": "not_fit",
+  "transcript": "AGENT: Good morning, Aangan Studio.\nUSER: Hi — I run a small coworking space. I have a 180 sq ft pod I want to make look really nice. Good lighting, a nice desk, some storage. Can you help?\nAGENT: Our commercial projects are typically 500 sq ft or more. A 180 sq ft pod is below our minimum scope.\nUSER: Not even for a smaller fee?\nAGENT: It’s not about the fee — it’s that our design and execution team is set up for a certain scale. A 180 sq ft space isn’t one we could do well at the quality we’d want to promise. I’d suggest a local designer who specialises in smaller commercial spaces.\nUSER: Fair enough. Thanks."
+ },
+ {
+  "id": "T19",
+  "call_date": "24 September 2026",
+  "expected": "not_fit",
+  "transcript": "AGENT: Good afternoon, Aangan Studio.\nUSER: Hi — I’m planning to open a restaurant in Koregaon Park. I’ve seen your work and I love it. Would you be able to design the interiors?\nAGENT: We appreciate you reaching out. Restaurant and hospitality interiors are outside our current scope — we focus on residential and office spaces. For a restaurant you’d need a studio that specialises in commercial hospitality, which has very different material and compliance requirements.\nUSER: Do you know anyone you could refer?\nAGENT: I don’t have a specific referral I could make confidently, but searching for hospitality interior designers in Pune would give you more relevant options.\nUSER: Alright, thanks."
+ },
+ {
+  "id": "T20",
+  "call_date": "25 September 2026",
+  "expected": "qualified",
+  "transcript": "AGENT: Good morning, Aangan Studio.\nUSER: Good morning. I’m Pooja. I have a 2BHK in Magarpatta — Cybercity area. We’ve been wanting to properly design the interiors for a while. Kitchen, both bedrooms, living room. About 900 sq ft.\nAGENT: Good scope for us. How soon are you looking to start?\nUSER: We’re flexible — a January start for execution would be ideal.\nAGENT: That works well. Are you the owner?\nUSER: Yes — my husband and I. We both want to be at the consultation.\nAGENT: Excellent. Can I book that now?\nUSER: Please."
+ }
 ]

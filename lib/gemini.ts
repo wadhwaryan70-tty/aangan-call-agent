@@ -52,7 +52,11 @@ Reply with JSON only, matching this shape:
 export async function classifyCall(call: NormalisedCall): Promise<{ result: Classification; costInr: number }> {
   const model = env("GEMINI_MODEL", "gemini-3.8-flash");
   const transcript = call.transcript.map((t) => `${t.role}: ${t.text}`).join("\n");
-  const user = `Call summary from the voice agent: ${call.summary || "(none)"}
+  // Timelines ("we move in November") only make sense against the day of the call.
+  const callDate = new Intl.DateTimeFormat("en-IN", { dateStyle: "full", timeZone: "Asia/Kolkata" })
+    .format(call.startedAt ? new Date(call.startedAt) : new Date());
+  const user = `Date of the call: ${callDate}
+Call summary from the voice agent: ${call.summary || "(none)"}
 Fields the voice agent collected: ${JSON.stringify(call.collected)}
 Transcript:
 ${transcript || "(no transcript)"}`;

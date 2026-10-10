@@ -16,7 +16,7 @@ for (const c of cases) {
   const res = await fetch(`${APP_URL}/api/eval?token=${encodeURIComponent(VAANI_WEBHOOK_SECRET)}`, {
     method: "POST",
     headers: { "content-type": "application/json" },
-    body: JSON.stringify({ id: c.id, transcript: c.transcript }),
+    body: JSON.stringify({ id: c.id, transcript: c.transcript, call_date: c.call_date }),
   });
   const r = await res.json().catch(() => ({ error: `HTTP ${res.status}` }));
   const ok = r.classification === c.expected && (!c.expect_pricing || r.asked_pricing === true);
