@@ -36,6 +36,8 @@ header .lede{color:var(--muted);max-width:70ch}
 /* pipeline */
 .pipe-scroll{overflow-x:auto;padding-bottom:4px}
 .pipe{display:grid;grid-template-columns:repeat(6,minmax(180px,1fr));gap:12px;min-width:0}
+.result{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:baseline;background:var(--ok-soft);color:var(--ok);border-radius:10px;padding:12px 16px;font-size:14px}
+.result b{font-family:var(--f-display);font-size:22px}
 .stage{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:10px;position:relative;min-width:0}
 .stage:not(:last-child)::after{content:"→";position:absolute;right:-12px;top:22px;width:12px;text-align:center;color:var(--accent);font-family:var(--f-mono);font-size:13px}
 .stage .num{font-family:var(--f-mono);font-size:11.5px;color:var(--accent);letter-spacing:.06em}
@@ -97,10 +99,11 @@ section{display:flex;flex-direction:column;gap:14px}
 
 <div class="wrap">
 <header>
-  <span class="eyebrow">Case 03 · Aangan Studio · Components Map</span>
+  <span class="eyebrow">MESA Case 03 · Aangan Studio · Components Map · Aryan Wadhwa</span>
   <h1>Every call answered, every good lead booked</h1>
-  <p class="lede">An AI voice agent picks up incoming calls to the studio number, qualifies the caller against Nikhil's own rules, books a consultation inside the call, and sends the designer everything already asked. Phone only for this build.</p>
-  <div class="stats"><span><b>~200</b> calls/mo</span><span><b>~96</b> unanswered</span><span><b>33%</b> after hours</span><span><b>4×</b> conversion under 1 hr</span><span><b>₹8–14L</b> per project</span></div>
+  <p class="lede">A Vaani AI voice agent answers incoming calls, qualifies the caller against Nikhil's own rubric, and books a consultation during the call. Gemini then classifies the call and the designer gets an email with everything already asked. Phone only for this build.</p>
+  <div class="stats"><span><b>~200</b> enquiries/mo</span><span><b>~48%</b> no reply in 48 hrs</span><span><b>33%</b> after hours</span><span><b>4×</b> conversion under 1 hr</span><span><b>₹8–14L</b> per project</span></div>
+  <div class="result"><b>20 / 20</b><span>real September phone enquiries classified correctly on the live app</span><span>·</span><span><b>0</b> prices quoted in any output</span></div>
 </header>
 
 <section>
@@ -108,45 +111,45 @@ section{display:flex;flex-direction:column;gap:14px}
   <div class="pipe-scroll"><div class="pipe">
     <div class="stage">
       <span class="num">01 · TRIGGER</span><h3>Call comes in</h3>
-      <p class="does">After hours, the agent answers at once. During 10am–7pm, it answers if the front desk misses the call after ~4 rings.</p>
-      <div class="tool"><span class="name">Vaani Labs</span><span class="role">Telephony: studio number forwarding and pickup rules</span></div>
+      <p class="does">Any call to the studio number, day or night. Vaani fires <code>call_started</code> to the webhook the moment the caller connects.</p>
+      <div class="tool"><span class="name">Vaani AI</span><span class="role">Telephony, pickup, call lifecycle webhooks</span></div>
       <div class="checks"><span class="chk">01 Problem real</span><span class="chk">02 Repeated</span></div>
     </div>
     <div class="stage">
       <span class="num">02 · INPUT</span><h3>Caller and call</h3>
-      <p class="does">Caller's voice, phone number, time of call. Repeat callers are matched by number.</p>
-      <div class="tool"><span class="name">Vaani Labs</span><span class="role">Live audio and caller ID</span></div>
-      <div class="tool"><span class="name">Supabase / Neon</span><span class="role">Lookup: has this number called before?</span></div>
+      <p class="does">Caller's voice and number, time of call. After the call: transcript, summary, extracted fields, recording.</p>
+      <div class="tool"><span class="name">Vaani AI</span><span class="role"><code>call_postprocessing</code> event</span></div>
+      <div class="tool"><span class="name">Next.js webhook on Vercel</span><span class="role">Token-checked, idempotent</span></div>
       <div class="checks"><span class="chk">03 Input available</span></div>
     </div>
     <div class="stage">
       <span class="num">03 · CONTEXT</span><h3>What the agent knows</h3>
-      <p class="does">services.md (what Aangan does), qualified.md (Nikhil's fit rules), designer roster, open consultation slots, call script with consent line.</p>
-      <div class="tool"><span class="name">Claude Chat</span><span class="role">Turns qualified.md into clear fit rules and the call script, before any code</span></div>
-      <div class="tool"><span class="name">Cal.com / Google Calendar</span><span class="role">Designers' set-aside consultation slots</span></div>
-      <p class="excluded">pricing.md is kept out of anything the agent says</p>
+      <p class="does">services.md and qualified.md, used word for word. The date of the call, so a timeline like "we move in November" is judged correctly.</p>
+      <div class="tool"><span class="name">knowledge/</span><span class="role">Nikhil's rubric and services</span></div>
+      <div class="tool"><span class="name">Supabase</span><span class="role">Designer roster with home / office specialties</span></div>
+      <p class="excluded">pricing.md is never loaded into any prompt</p>
       <div class="checks"><span class="chk">03 Input</span><span class="chk stop">06 Pricing = NO</span></div>
     </div>
     <div class="stage">
       <span class="num">04 · PROCESSING</span><h3>Log and route</h3>
-      <p class="does">Every call is logged with timestamps. Fetches free slots, matches the lead to a designer, creates the CRM record.</p>
-      <div class="tool"><span class="name">Supabase / Neon</span><span class="role">Call log and state: every call, time to answer, outcome</span></div>
-      <div class="tool"><span class="name">HubSpot</span><span class="role">Qualified calls become deals</span></div>
-      <div class="checks"><span class="chk">05 Measurable</span></div>
+      <p class="does">Every call is logged with its start time, length, after-hours flag and cost. Qualified leads go to the matched designer with the fewest leads this week.</p>
+      <div class="tool"><span class="name">Supabase Postgres</span><span class="role">Call log, RLS on, server-only access</span></div>
+      <div class="checks"><span class="chk">05 Measurable</span><span class="chk">08 ROI</span></div>
     </div>
     <div class="stage">
       <span class="num">05 · AI</span><h3>Talk, qualify, book</h3>
-      <p class="does">Asks the intake questions: property, size, location, scope, budget band, timeline. Offers two slots and books one. Writes the handoff note after the call.</p>
-      <div class="tool"><span class="name">Vaani Labs</span><span class="role">Voice agent and call orchestration</span></div>
-      <div class="tool"><span class="name">Gemini Flash</span><span class="role">Classifies the call (qualified / not / complaint) and routes it. Cheap and fast; the rules come from qualified.md</span></div>
+      <p class="does">On the call: asks the intake questions, deflects price questions, books one of two slots. After the call: classifies it and writes an 8-line note.</p>
+      <div class="tool"><span class="name">Vaani AI</span><span class="role">Voice agent following Nikhil's five checks</span></div>
+      <div class="tool"><span class="name">Gemini Flash</span><span class="role">qualified / not_fit / complaint / unclear, JSON mode</span></div>
+      <p class="excluded">Code filter strips any rate, estimate or ₹ figure from AI output</p>
       <div class="checks"><span class="chk">06 Failure risk</span><span class="chk">07 Judgment</span></div>
     </div>
     <div class="stage">
       <span class="num">06 · OUTPUT</span><h3>Everyone gets their part</h3>
-      <p class="does">Caller gets a confirmation and reminder. Designer gets the full note. Nikhil sees it on the dashboard.</p>
-      <div class="tool"><span class="name">Resend (email)</span><span class="role">Designer handoff email with Claim / Reschedule buttons</span></div>
-      <div class="tool"><span class="name">Cal.com</span><span class="role">Booking confirmation to the caller</span></div>
-      <div class="tool"><span class="name">Vercel</span><span class="role">Hosts Nikhil's dashboard</span></div>
+      <p class="does">Designer gets the email. The front desk gets complaints and anything the AI could not classify. Nikhil sees it all on the dashboard.</p>
+      <div class="tool"><span class="name">Resend (email)</span><span class="role">Handoff with Claim / Reschedule buttons</span></div>
+      <div class="tool"><span class="name">Vercel</span><span class="role">Nikhil's dashboard, password protected</span></div>
+      <div class="tool"><span class="name">HubSpot</span><span class="role">Deal per qualified lead (wired, switched on by token)</span></div>
       <div class="checks"><span class="chk">04 Valuable</span><span class="chk">09 Owner clear</span></div>
     </div>
   </div></div>
@@ -156,22 +159,22 @@ section{display:flex;flex-direction:column;gap:14px}
   <div class="section-head"><span class="eyebrow">Where each call ends up</span><h2>Four outcomes from the classifier</h2></div>
   <div class="branches">
     <div class="branch ok"><span class="when">Qualified</span><h3>Book and hand off</h3>
-      <ul><li>Consultation <b>booked inside the call</b></li><li>Handoff email to the matched designer</li><li>HubSpot deal created</li><li>Reminder to caller the day before</li></ul></div>
+      <ul><li>Consultation <b>booked during the call</b></li><li>Email to the matched designer</li><li>Annoyed prospects still qualify, with a "Handle with care" note</li></ul></div>
     <div class="branch"><span class="when">Not a fit</span><h3>Close politely</h3>
-      <ul><li>Explains what Aangan does, from services.md</li><li>No slot offered</li><li>Logged in Supabase for Nikhil's weekly review</li></ul></div>
+      <ul><li>Other city, advice only, hospitality, too small, under 6 weeks, or a volunteered budget clearly too low</li><li>No slot offered; logged for Nikhil</li></ul></div>
     <div class="branch warn"><span class="when">Asks for a price</span><h3>The Cut</h3>
-      <ul><li>Agent says: <b>"Your designer will walk you through pricing on the consultation."</b></li><li>No number, no range, no per-sq-ft rate</li><li>Pricing question flagged in the handoff note</li></ul></div>
-    <div class="branch stop"><span class="when">Complaint or edge case</span><h3>Pass to a human</h3>
-      <ul><li>Agent takes a message, makes no commitment</li><li>Email to the front desk for first thing next morning</li></ul></div>
+      <ul><li>Agent says: <b>"Your designer will walk you through pricing on the consultation."</b></li><li>Never disqualifies; flagged in the note</li></ul></div>
+    <div class="branch stop"><span class="when">Complaint or AI failure</span><h3>Pass to a human</h3>
+      <ul><li>Existing client with a problem: message taken, no promises</li><li>Front desk emailed; if the AI step fails, the raw transcript is emailed so no lead is lost</li></ul></div>
   </div>
 </section>
 
 <section>
   <div class="section-head"><span class="eyebrow">Boundary · checks 06, 07, 09</span><h2>What the agent does, and where a human stays</h2></div>
   <div class="boundary">
-    <div class="col agent"><h3>Agent does</h3><ul><li>Answers every call within seconds, day or night</li><li>Asks the intake questions</li><li>Qualifies against qualified.md</li><li>Books pre-set consultation slots</li><li>Writes the handoff note</li></ul></div>
-    <div class="col human"><h3>Human only</h3><ul><li>Quoting any price (Nikhil owns the price)</li><li>Committing to site visits or timelines</li><li>Handling complaints</li><li>The client relationship (designer owns it)</li></ul></div>
-    <div class="col"><h3>Owners</h3><ul><li><span class="owner">Agent</span> qualifies and books</li><li><span class="owner">Designer</span> owns the meeting and relationship</li><li><span class="owner">Nikhil</span> owns the price and the rules in qualified.md</li></ul></div>
+    <div class="col agent"><h3>Agent does</h3><ul><li>Answers every call within seconds, day or night</li><li>Asks the intake questions</li><li>Qualifies against qualified.md</li><li>Books a consultation slot</li><li>Writes the handoff note</li></ul></div>
+    <div class="col human"><h3>Human only</h3><ul><li>Quoting any price (the Cut)</li><li>Committing to site visits, start or finish dates</li><li>Handling existing-client complaints</li><li>The client relationship</li></ul></div>
+    <div class="col"><h3>Owners</h3><ul><li><span class="owner">Agent</span> qualifies and books</li><li><span class="owner">Designer</span> owns the meeting and relationship</li><li><span class="owner">Nikhil</span> owns the price and the rubric</li></ul></div>
   </div>
 </section>
 
@@ -179,22 +182,22 @@ section{display:flex;flex-direction:column;gap:14px}
   <div class="section-head"><span class="eyebrow">Handoff choice</span><h2>Email through Resend, not Telegram</h2></div>
   <div class="two">
     <div class="note">
-      <span class="tg">Email · Subject: New consultation Thu 8 Oct, 4:00 pm: Priya S., 3BHK, Baner</span>
-      <span>🏠 New consultation: Thu 4:00 PM</span>
-      <span>Priya S. · Baner, Pune · 3BHK, ~1,400 sq ft</span>
-      <span>Scope: full home interiors</span>
-      <span>Budget band: ₹10–12L · Possession: Jan</span>
-      <span>Fit: Qualified (residential, full scope, in service area)</span>
-      <span>Asked about pricing → told designer will cover it</span>
+      <span class="tg">Email · Subject: New consultation Mon 12 Oct, 12:00 pm: Neha, 3BHK, Baner</span>
+      <span>Wants complete interiors for a new home.</span>
+      <span>3BHK in Baner (~1,300 sq ft), possession received.</span>
+      <span>Timeline: move-in target by February.</span>
+      <span>Budget not specified.</span>
+      <span>Deciding jointly with husband; authorised to set up.</span>
+      <span>Asked about pricing; told designer will cover it.</span>
       <div class="btns"><span>Claim this lead</span><span>Reschedule</span><span>Recording</span></div>
     </div>
     <div class="why">
-      <p>Every designer already lives in their inbox, and an email is a record Nikhil can search, forward and audit later.</p>
+      <p>Designers already work from their inbox, and an email is a record Nikhil can search, forward and audit.</p>
       <ul>
-        <li><b>The subject line carries the slot.</b> A designer sees when, who and where in the notification without opening it.</li>
-        <li><b>One-tap Claim.</b> The first designer to claim takes the lead, so two people never chase the same client. Links are signed so only the email's recipient can use them.</li>
-        <li><b>Nothing new to install.</b> No bot, no group to manage, no personal phone numbers shared.</li>
-        <li><b>Speed trade-off, handled.</b> Email is slower than chat, so the client already has a booked slot before the email lands. The designer is preparing, not racing.</li>
+        <li><b>The subject line carries the slot.</b> The notification alone says when, who and where.</li>
+        <li><b>One-tap Claim.</b> The first designer to claim takes the lead. Links are signed, and a confirm step stops email scanners from clicking them.</li>
+        <li><b>Nothing new to install.</b> No bot, no group to manage, no personal numbers shared.</li>
+        <li><b>The speed trade-off is covered.</b> The caller already has a booked slot before the email lands.</li>
       </ul>
     </div>
   </div>
@@ -203,22 +206,12 @@ section{display:flex;flex-direction:column;gap:14px}
 <section>
   <div class="section-head"><span class="eyebrow">Dashboard on Vercel · checks 05, 08</span><h2>What Nikhil sees instead of counting by hand</h2></div>
   <div class="grid4">
-    <div class="mini"><span class="k">Speed</span><span class="name">Time to first response</span><span class="role">% answered under 5 min and under 1 hr</span></div>
-    <div class="mini"><span class="k">Funnel</span><span class="name">Calls → qualified → booked</span><span class="role">→ showed up → project won</span></div>
-    <div class="mini"><span class="k">Value</span><span class="name">Pipeline in ₹ lakh</span><span class="role">From HubSpot deals</span></div>
-    <div class="mini"><span class="k">Cost</span><span class="name">Cost per call and per month</span><span class="role">Vaani minutes + Gemini calls, against value created</span></div>
+    <div class="mini"><span class="k">Reach</span><span class="name">Calls answered · after hours</span><span class="role">Calls the front desk would have missed</span></div>
+    <div class="mini"><span class="k">Funnel</span><span class="name">Qualified → booked → showed up → won</span><span class="role">With ₹ value of projects won</span></div>
+    <div class="mini"><span class="k">Cost</span><span class="name">Cost to run</span><span class="role">Vaani minutes + Gemini tokens, per call</span></div>
+    <div class="mini"><span class="k">Efficiency</span><span class="name">Cost per booking</span><span class="role">Total cost ÷ consultations booked</span></div>
   </div>
 </section>
 
-<section>
-  <div class="section-head"><span class="eyebrow">Build layer</span><h2>How it gets built and kept</h2></div>
-  <div class="grid4">
-    <div class="mini"><span class="k">Step 1</span><span class="name">Claude Chat</span><span class="role">Writes the qualification logic and call script with no code</span></div>
-    <div class="mini"><span class="k">Step 2</span><span class="name">Claude Code</span><span class="role">Builds the project end to end: integrations, routing, dashboard</span></div>
-    <div class="mini"><span class="k">Every session</span><span class="name">GitHub</span><span class="role">Saves progress between sessions</span></div>
-    <div class="mini"><span class="k">Ship</span><span class="name">Vercel</span><span class="role">Hosts the dashboard</span></div>
-  </div>
-</section>
-
-<p class="foot"><b>Extending later (not built):</b> WhatsApp and the web form only change the Trigger and Input. Context, AI, Output and the dashboard are reused as they are.</p>
+<p class="foot"><b>Extending later (not built):</b> WhatsApp and the web form only change the Trigger and Input. Each gets a webhook route that normalises into the same call shape; Context, AI, Output and the dashboard are reused as they are.</p>
 </div>

@@ -43,3 +43,7 @@
 - One-tap Claim (first designer wins) stops two people chasing one lead.
 - Email is a searchable record Nikhil can forward and audit.
 - The speed trade-off is covered because the client already has a booked slot before the email lands.
+
+## Results
+
+20 / 20 real September phone enquiries classified correctly on the live app, with no price in any output. Two fixes came from the eval: the classifier now gets the date of the call, and "complaint" means an existing client, so an annoyed new prospect still reaches a designer. See `eval-results.md`.

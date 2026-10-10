@@ -59,5 +59,5 @@ Rules you never break:
 
 ## 6. Webhook (Settings → Webhooks)
 - URL: https://aangan-call-agent.vercel.app/api/vaani/webhook
-- Events: call.completed, call.failed
+- Events: Call Started, Call Post-Processing (Developers → Webhooks; URL ends in ?token=<VAANI_WEBHOOK_SECRET>)
 - Copy the signing secret into Vercel as VAANI_WEBHOOK_SECRET
