@@ -3,7 +3,7 @@
 An AI front desk for **Aangan Studio**, an interior design studio in Pune (MESA Case 03).
 It answers every call to the studio number, day or night, qualifies the caller against the founder's own rules, books a consultation inside the call, and emails the designer everything that was already asked.
 
-> **Live:** https://aangan-call-agent.vercel.app (dashboard is password protected, user `aangan`)
+> **Live:** https://aangan-call-agent-aryan.vercel.app (dashboard is password protected, user `aangan`)
 
 ## How a call flows
 
