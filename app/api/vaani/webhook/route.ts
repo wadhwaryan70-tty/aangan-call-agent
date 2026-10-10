@@ -103,6 +103,8 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ ok: false, error: reason }, { status: 200 });
   }
   const { result, costInr } = classified;
+  // Vaani only sends the slot if a post-call extraction field is set up; otherwise take it from the transcript.
+  if (!call.bookedSlot && result.booked_slot && !isNaN(Date.parse(result.booked_slot))) call.bookedSlot = result.booked_slot;
 
   // Route: match designer by segment, then the one with the fewest leads this week.
   let designer: { id: string; name: string; email: string | null } | null = null;
@@ -128,6 +130,7 @@ export async function POST(req: NextRequest) {
     handoff_note: result.handoff_note,
     designer_id: designer?.id ?? null,
     cost_llm_inr: costInr,
+    ...(call.bookedSlot ? { booked_slot: call.bookedSlot } : {}),
   };
 
   // Outputs. Each is best-effort so one failing service doesn't lose the lead.
