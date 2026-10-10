@@ -3,7 +3,7 @@
 An AI front desk for **Aangan Studio**, an interior design studio in Pune (MESA Case 03, Aryan Wadhwa).
 It answers every call to the studio, day or night, qualifies the caller against the founder's own rules, books a consultation during the call, and emails the designer everything that was already asked.
 
-- **Live:** https://aangan-call-agent-aryan.vercel.app (Nikhil's dashboard, password protected, user `aangan`)
+- **Live:** https://aangan-call-agent-aryan.vercel.app (Nikhil's dashboard)
 - **Results:** 20 / 20 real September phone enquiries classified correctly; no price, rate or estimate in any output. See [`docs/eval-results.md`](docs/eval-results.md).
 - **Components map:** [`docs/component-map.png`](docs/component-map.png) (source: `docs/component-map.html`)
 - **Brief and Nine Checks:** [`docs/case-brief.md`](docs/case-brief.md)

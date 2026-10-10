@@ -11,6 +11,8 @@ type Call = {
 };
 
 const inr = (n: number) => "₹" + Math.round(n).toLocaleString("en-IN");
+// The dashboard is public, so only the last four digits of a caller's number are shown.
+const mask = (n: string | null) => (n ? "••••" + n.replace(/\D/g, "").slice(-4) : "–");
 const pct = (a: number, b: number) => (b ? Math.round((a / b) * 100) + "%" : "–");
 
 export default async function Dashboard() {
@@ -70,7 +72,7 @@ export default async function Dashboard() {
             {calls.slice(0, 50).map((c) => (
               <tr key={c.id}>
                 <td style={td}>{c.started_at ? new Date(c.started_at).toLocaleString("en-IN", { timeZone: "Asia/Kolkata", dateStyle: "short", timeStyle: "short" }) : "–"}{c.after_hours ? " 🌙" : ""}</td>
-                <td style={td}>{c.caller_number ?? "–"}</td>
+                <td style={td}>{mask(c.caller_number)}</td>
                 <td style={td}><span style={{ ...pill, ...(tone[c.classification ?? "unclear"] ?? {}) }}>{label[c.classification ?? "unclear"] ?? c.classification}</span></td>
                 <td style={td}>{c.booked_slot ? new Date(c.booked_slot).toLocaleString("en-IN", { timeZone: "Asia/Kolkata", dateStyle: "short", timeStyle: "short" }) : "–"}</td>
                 <td style={td}>{c.claimed_by ?? "–"}</td>
