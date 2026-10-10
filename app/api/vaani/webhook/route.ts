@@ -62,9 +62,21 @@ export async function POST(req: NextRequest) {
     booked_slot: call.bookedSlot,
     cost_voice_inr: voiceCost,
   }).filter(([, v]) => v !== null && v !== undefined && v !== ""));
-  const { data: row, error } = await supa.from("calls").upsert(base, { onConflict: "vaani_call_id" }).select("id, caller_number").single();
+  const { data: row, error } = await supa.from("calls").upsert(base, { onConflict: "vaani_call_id" }).select("id, caller_number, started_at").single();
   if (error) throw error;
   call.callerNumber = call.callerNumber ?? row.caller_number ?? null;
+  // Vaani AI does not always send call_duration; derive it from call_started -> end.
+  if (!call.durationSec && row.started_at) {
+    const end = call.endedAt ? new Date(call.endedAt).getTime() : Date.now();
+    const sec = Math.max(0, Math.round((end - new Date(row.started_at).getTime()) / 1000));
+    if (sec > 0 && sec < 3600) {
+      call.durationSec = sec;
+      await supa.from("calls").update({
+        duration_sec: sec,
+        cost_voice_inr: (sec / 60) * Number(process.env.VAANI_RATE_INR_PER_MIN ?? 5),
+      }).eq("id", row.id);
+    }
+  }
 
   // A call that never connected is logged for the dashboard but not classified.
   if (failed || call.transcript.length === 0) {
