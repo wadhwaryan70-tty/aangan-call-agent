@@ -33,11 +33,13 @@ What the studio does and does not do:
 ${k.services}
 </services>
 
-Classify as exactly one of:
-- "qualified": meets the rules above.
-- "not_fit": outside services, area, or budget in the rules.
-- "complaint": an existing client with a problem, or anything angry or sensitive. A human must handle it.
-- "unclear": not enough information (dropped call, wrong number, caller refused to answer).
+Apply Nikhil's rubric above exactly. Classify as one of:
+- "qualified": passes the five criteria, including cases the rubric says to treat as qualified (budget not mentioned; unclear on budget or decision-maker; rented flat with no structural change; asking about price).
+- "not_fit": clearly fails the rubric or services: outside Pune/PCMC, advice or decor only, out-of-scope type (restaurant, hotel, retail, gym, structural work), too small, a timeline that makes execution impossible, or a volunteered budget clearly below the described scope.
+- "complaint": an existing client with a problem, or anyone angry about service. A human must handle it.
+- "unclear": not enough information (dropped call, wrong number, caller gave almost nothing).
+
+In fit_reason, name the rubric criterion that decided it. If a criterion was uncertain (for example the caller is not the owner), say so in the handoff note.
 
 Set asked_pricing true if the caller asked about cost, rates or per-square-foot price.
 Never include any price, rate or estimate in your output.

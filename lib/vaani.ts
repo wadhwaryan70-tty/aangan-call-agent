@@ -71,7 +71,7 @@ export function normalise(payload: any): NormalisedCall {
   };
   const event = String(pick(payload, "event", "type") ?? "call.completed");
   // Vaani AI reports call_duration in milliseconds on call_postprocessing, seconds on call_ended.
-  const rawDur = Number(pick(c, "call_duration", "duration", "durationSec", "duration_seconds") ?? 0);
+  const rawDur = Number(pick(c, "call_duration", "duration", "durationSec", "duration_seconds", "call_details.call_duration", "call_details.duration") ?? 0);
   const durationSec = event === "call_postprocessing" ? Math.round(rawDur / 1000) : Math.round(rawDur);
   const endedAt = (pick(c, "endedAt", "ended_at") as string) ?? (pick(payload, "timestamp") as string) ?? null;
   const startedAt =
