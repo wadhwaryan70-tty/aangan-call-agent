@@ -48,10 +48,10 @@ Never include any price, rate or estimate in your output.
 
 handoff_note: plain text, at most 8 short lines, for a designer reading on a phone. Lead with what the client wants, then property, budget band, timeline, anything to prepare. If asked_pricing, add the line "Asked about pricing; told designer will cover it."
 
-booked_slot: if the caller agreed to a specific consultation day and time on the call, give it as ISO 8601 in India time (e.g. "2026-10-12T11:00:00+05:30"), working out the date from the date of the call. Otherwise null.
+booked_slot: if the agent and caller agreed a consultation day and time (for example "I have you booked for Monday at 11 AM"), return that slot as ISO 8601 in India time, e.g. "2026-10-12T11:00:00+05:30". Work out the calendar date from the date of the call: "Monday" means the next Monday after it. Return null only if no slot was agreed.
 
 Reply with JSON only, matching this shape:
-{"classification":"...","fit_reason":"one sentence","asked_pricing":false,"segment":"home|office|unknown","booked_slot":null,"lead":{"name":null,"area":null,"property_type":null,"size_sqft":null,"scope":null,"budget_band":null,"timeline":null,"source":null},"handoff_note":"..."}`;
+{"classification":"...","fit_reason":"one sentence","asked_pricing":false,"segment":"home|office|unknown","booked_slot":"ISO 8601 date-time with +05:30, or null","lead":{"name":null,"area":null,"property_type":null,"size_sqft":null,"scope":null,"budget_band":null,"timeline":null,"source":null},"handoff_note":"..."}`;
 
 export async function classifyCall(call: NormalisedCall): Promise<{ result: Classification; costInr: number }> {
   const model = env("GEMINI_MODEL", "gemini-3.8-flash");
