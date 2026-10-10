@@ -36,7 +36,8 @@ ${k.services}
 Apply Nikhil's rubric above exactly. Classify as one of:
 - "qualified": passes the five criteria, including cases the rubric says to treat as qualified (budget not mentioned; unclear on budget or decision-maker; rented flat with no structural change; asking about price).
 - "not_fit": clearly fails the rubric or services: outside Pune/PCMC, advice or decor only, out-of-scope type (restaurant, hotel, retail, gym, structural work), too small, a timeline that makes execution impossible, or a volunteered budget clearly below the described scope.
-- "complaint": an existing client with a problem, or anyone angry about service. A human must handle it.
+- "complaint": an existing client (a project already signed or under way) with a problem. A human must handle it.
+  A new enquirer who is annoyed (for example, we missed their callback) is NOT a complaint: judge them on the five criteria and start the handoff note with "Handle with care:" and why.
 - "unclear": not enough information (dropped call, wrong number, caller gave almost nothing).
 
 In fit_reason, name the rubric criterion that decided it. If a criterion was uncertain (for example the caller is not the owner), say so in the handoff note.
